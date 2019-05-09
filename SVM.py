@@ -4,14 +4,6 @@ Created on Mon May  6 21:24:51 2019
 
 @author: sergi
 """
-
-import pickle
-import gzip
-from sklearn.svm import SVC
-caminho = './base de dados'
-
-
-
 import numpy as np
 import pandas as pd
 
@@ -29,27 +21,11 @@ import scikitplot as skplt
 import matplotlib
 import matplotlib.pyplot as plt
 
-
-
-# Só mudar o número 0 para outro, de 1 a 4, para acessar as outras bases
-with gzip.open(caminho + ' 0', 'rb') as arquivo:
-    treino, validacao, teste = pickle.load(arquivo)
-
-
-# %%
-#treino.iloc[:1000, :-2]
-#treino.iloc[:, -2]
-svc_clf = SVC(probability=True)  # Modifique aqui os hyperparâmetros
-svc_clf.fit(treino.iloc[:10000, :-2], treino.iloc[:10000, -2])
-svc_pred_class = svc_clf.predict(validacao.iloc[:10000, :-2])
-svc_pred_scores = svc_clf.predict_proba(validacao.iloc[:10000, :-2])
-
-
-accuracy, recall, precision, f1, auroc, aupr = compute_performance_metrics(validacao.iloc[:10000, -2], svc_pred_class, svc_pred_scores)
-print('Performance no conjunto de validação:')
-print_metrics_summary(accuracy, recall, precision, f1, auroc, aupr)
-
-
+import pickle
+import gzip
+from sklearn.svm import SVC
+caminho = './base de dados'
+    
 # %%
 
 def compute_performance_metrics(y, y_pred_class, y_pred_scores=None):
@@ -77,3 +53,34 @@ def print_metrics_summary(accuracy, recall, precision, f1, auroc=None, aupr=None
         print("{metric:<18}{value:.4f}".format(metric="AUROC:", value=auroc))
     if aupr is not None:
         print("{metric:<18}{value:.4f}".format(metric="AUPR:", value=aupr))
+
+def print_metrics_summary2(accuracy, recall, precision, f1, arq, auroc=None, aupr=None):
+    arq.write('\n')
+    arq.write("{metric:<18}{value:.4f}\n".format(metric="Accuracy:", value=accuracy))
+    arq.write("{metric:<18}{value:.4f}\n".format(metric="Recall:", value=recall))
+    arq.write("{metric:<18}{value:.4f}\n".format(metric="Precision:", value=precision))
+    arq.write("{metric:<18}{value:.4f}\n".format(metric="F1:", value=f1))
+    if auroc is not None:
+        arq.write("{metric:<18}{value:.4f}\n".format(metric="AUROC:", value=auroc))
+    if aupr is not None:
+        arq.write("{metric:<18}{value:.4f}\n".format(metric="AUPR:", value=aupr))
+
+# %%
+for n in range(5):
+    
+    with gzip.open(caminho + ' ' + str(n), 'rb') as arquivo:
+        treino, validacao, teste = pickle.load(arquivo)
+    
+    svc_clf = SVC(probability = True, verbose = True, random_state = n)  # Modifique aqui os hyperparâmetros
+    svc_clf.fit(treino.iloc[:, :-2], treino.iloc[:, -2])
+    svc_pred_class = svc_clf.predict(validacao.iloc[:, :-2])
+    svc_pred_scores = svc_clf.predict_proba(validacao.iloc[:, :-2])
+    
+    accuracy, recall, precision, f1, auroc, aupr = compute_performance_metrics(validacao.iloc[:, -2], svc_pred_class, svc_pred_scores)
+    print('Performance no conjunto de validação:')
+    print_metrics_summary(accuracy, recall, precision, f1, auroc, aupr)
+    
+    with open('resultados.txt', 'a+') as arq_resul:
+        arq_resul.write('Resultado utilizando o banco de dados ' + str(n) + ':\n')
+        print_metrics_summary2(accuracy, recall, precision, f1, arq_resul, auroc, aupr)
+        arq_resul.write('\n')
