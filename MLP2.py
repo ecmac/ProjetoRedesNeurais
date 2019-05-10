@@ -108,12 +108,10 @@ def print_metrics_summary2(accuracy, recall, precision, f1, arq, auroc=None, aup
 
 def create_sklearn_compatible_model():
     model = Sequential()
-    model.add(Dense(200, activation='tanh', input_dim=244))
-    model.add(Dense(100, activation='tanh'))
-    model.add(Dense(50, activation='tanh'))
-    model.add(Dense(10, activation='tanh'))
+    model.add(Dense(30, activation='sigmoid', input_dim=244))
+    model.add(Dense(5, activation='sigmoid'))
     model.add(Dense(1, activation='sigmoid'))
-    model.compile(optimizer='SGD', loss='mean_squared_error')
+    model.compile(optimizer='adam', loss='mean_squared_error')
     return model
     
 #%% apenas rodar em uma base
@@ -124,13 +122,13 @@ for n in range(1):
 # %%
 mlp_clf = KerasClassifier(build_fn=create_sklearn_compatible_model, 
                       batch_size=64, epochs=100,
-                      verbose=0)
+                      verbose=2)
 
-mlp_clf.fit(treino.iloc[:10000, :-2], treino.iloc[:10000, -2])
-mlp_pred_class = mlp_clf.predict(validacao.iloc[:10000, :-2])
-mlp_pred_scores = mlp_clf.predict_proba(validacao.iloc[:10000, :-2])
+mlp_clf.fit(treino.iloc[:50000, :-2], treino.iloc[:50000, -2], callbacks = [EarlyStopping()])
+mlp_pred_class = mlp_clf.predict(validacao.iloc[:50000, :-2])
+mlp_pred_scores = mlp_clf.predict_proba(validacao.iloc[:50000, :-2])
 
-accuracy, recall, precision, f1, auroc, aupr = compute_performance_metrics(validacao.iloc[:10000, -2], mlp_pred_class, mlp_pred_scores)
+accuracy, recall, precision, f1, auroc, aupr = compute_performance_metrics(validacao.iloc[:50000, -2], mlp_pred_class, mlp_pred_scores)
 
 print('Performance no conjunto de validação:')
 print_metrics_summary(accuracy, recall, precision, f1, auroc, aupr)
