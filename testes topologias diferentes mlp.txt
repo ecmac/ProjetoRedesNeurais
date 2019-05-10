@@ -1,0 +1,123 @@
+Python 3.7.3 (default, Mar 27 2019, 17:13:21) [MSC v.1915 64 bit (AMD64)]
+Type "copyright", "credits" or "license" for more information.
+
+IPython 7.4.0 -- An enhanced Interactive Python.
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(30, activation='tanh', input_dim=244))
+    model.add(Dense(5, activation='tanh'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='SGD', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.5019
+Recall:           1.0000
+Precision:        0.5019
+F1:               0.6684
+AUROC:            0.5011
+AUPR:             0.5030
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(30, activation='sigmoid', input_dim=244))
+    model.add(Dense(5, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='SGD', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.5019
+Recall:           1.0000
+Precision:        0.5019
+F1:               0.6684
+AUROC:            0.5007
+AUPR:             0.5030
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(30, activation='relu', input_dim=244))
+    model.add(Dense(5, activation='relu'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.4981
+Recall:           0.0000
+Precision:        0.0000
+F1:               0.0000
+AUROC:            0.5000
+AUPR:             0.5019
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(30, activation='sigmoid', input_dim=244))
+    model.add(Dense(5, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.5013
+Recall:           0.9970
+Precision:        0.5016
+F1:               0.6674
+AUROC:            0.4993
+AUPR:             0.5018
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(50, activation='sigmoid', input_dim=244))
+    model.add(Dense(10, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.4982
+Recall:           0.0004
+Precision:        0.6667
+F1:               0.0008
+AUROC:            0.4996
+AUPR:             0.5019
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(10, activation='sigmoid', input_dim=244))
+    model.add(Dense(5, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.4986
+Recall:           0.0012
+Precision:        0.8571
+F1:               0.0024
+AUROC:            0.5008
+AUPR:             0.5032
+
+def create_sklearn_compatible_model():
+    model = Sequential()
+    model.add(Dense(30, activation='sigmoid', input_dim=244))
+    model.add(Dense(5, activation='sigmoid'))
+    model.add(Dense(1, activation='sigmoid'))
+    model.compile(optimizer='adam', loss='mean_squared_error')
+    return model
+
+Performance no conjunto de validação:
+
+Accuracy:         0.5015
+Recall:           0.9978
+Precision:        0.5017
+F1:               0.6677
+AUROC:            0.4999
+AUPR:             0.5023
