@@ -1,0 +1,8 @@
+criterion - o sklearn diz ser o melhor
+min_weight_fraction_leaf - sua mudança estar "embutido" na mudança do min_samples_split e min_samples_leaf
+min_impurity_split - descontinuado
+init - começa com uma predição bem peba
+random_state = 1
+max_leaf_nodes - ilimitado se None
+warm_start - não utilizar rede previamente treinada; começar do zero
+presort - automático (?)
